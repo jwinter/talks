@@ -1,9 +1,9 @@
 # Git Talk :)
 
 # Git concepts
-[http://git-scm.com/book/en/v2/Getting-Started-Git-Basics](Git concepts)
+[Git Concepts](http://git-scm.com/book/en/v2/Getting-Started-Git-Basics)
 
-[http://ndpsoftware.com/git-cheatsheet.html](Visual Git cheatsheet)
+[Visual Git cheatsheet](http://ndpsoftware.com/git-cheatsheet.html)
 
 
 # Initial Setup
@@ -21,7 +21,7 @@ Take a look at the branches`git branch -a`
 5. Prepare for a commit by adding files to git's staging area (aka index)
 6. Review what you're about to commit
 7. Commit
-8. Bring your branch up to date by merging the master branch into it
+8. Bring your branch up to date by merging the `dev` branch into it
 9. Push your branch up to remote repo
 10. GOTO 1
 
@@ -59,8 +59,9 @@ Create a new branch based off your current branch (dev)
 ### Amend the last commit (this is only a good idea BEFORE you've pushed your branch)
 `git commit --amend`
 
-### 8. Bring your branch up to date by merging the master branch into it
-* Merge master in: `git merge origin/master`
+### 8. Bring your branch up to date by merging the dev branch into it
+* Get latest `git fetch`
+* Merge dev in: `git merge origin/dev`
 * Identify merge conflicts: `git status`
 * Fix merge conflicts
 * `git status` will walk you through it w/instructions
@@ -91,8 +92,12 @@ Date:   Sun Feb 1 07:36:34 2015 -0500
 
 Show the diffs along with the commits: `git log -p`
 
-### Only add bits of files
-`git add -p` "stage this hunk" will walk through each change **within** files
+### Cherry-picking commits from other branches
+
+Sometimes you just want to pull a single commit from another branch.
+
+* Use `git log` to find the SHA of the commit you want to pull
+* `git cherry-pick SHA_GOES_HERE` 
 
 ### Pausing your work
 
@@ -101,6 +106,9 @@ Working on a feature branch, not quite ready for a commit, but gotta check on so
 * `git checkout higher-priority`
 * `git checkout -` switches back to your old branch
 * `git stash pop` pop your work off the queue back into your working dir
+
+### Only add bits of files
+`git add -p` "stage this hunk" will walk through each change **within** files
 
 ### Finding where bugs where introduced
 
@@ -114,6 +122,6 @@ Working on a feature branch, not quite ready for a commit, but gotta check on so
 
 
 # Great resources:
-[http://ndpsoftware.com/git-cheatsheet.html](Visual Git Cheatsheet)
+[Visual Git Cheatsheet](http://ndpsoftware.com/git-cheatsheet.html)
 
-[http://git-scm.com/book/en/v2](Pro Git, great free online book on Git)
+[Pro Git, great free online book on Git](http://git-scm.com/book/en/v2)
