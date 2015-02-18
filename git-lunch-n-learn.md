@@ -1,15 +1,16 @@
 # Git Talk :)
 
+# Git concepts
+[http://git-scm.com/book/en/v2/Getting-Started-Git-Basics](Git concepts)
+
+[http://ndpsoftware.com/git-cheatsheet.html](Visual Git cheatsheet)
+
+
 # Initial Setup
 
 Clone the entire repo `git clone git@github.comcast.com:xbo/deviceDataService.git`
 
 Take a look at the branches`git branch -a`
-
-# Git concepts
-[http://git-scm.com/book/en/v2/Getting-Started-Git-Basics](Git concepts)
-
-[http://ndpsoftware.com/git-cheatsheet.html](Visual Git cheatsheet)
 
 # Day to day workflow
 
