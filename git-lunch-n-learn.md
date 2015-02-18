@@ -2,10 +2,12 @@
 
 # Git concepts
 [Git Concepts](http://git-scm.com/book/en/v2/Getting-Started-Git-Basics)
-The two charts (regarding deltas/vs snapshots and the workspace, staging index, repo) on this page are pretty helpful.
+The charts (snapshots instead of deltas and the workspace, staging index, repo) on this page are pretty helpful.
 
 [Visual Git cheatsheet](http://ndpsoftware.com/git-cheatsheet.html)
 Another nice illustration of how changes flow from workspace to staging index to local repo to remote repo.
+
+[SVN commands and their Git equivalent](http://git-scm.com/course/svn.html) Helpful for transitioning from SVN to git.
 
 
 # Initial Setup
