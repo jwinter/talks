@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# What's splunk
+* Storing / Searching "event stream"
+** What is it really?
+*** Log collection, aggregation, and search
+*** every backend service at $WORK logs to splunk (pretty much)
+* short presentation, but splunk is slow :)
+
+---
+
+# Can turn a bad day into a satisfying day
+
+---
+
+# Why splunk
+- correlate events across services/teams at $WORK
+- every backend service is in splunk
+- ohnoohnoohnoohnowhathavewedone OR look these guys are idiots
+- real evidence to prove/disprove theories about what's actually going on in prod
+
+---
+
+# Search
+- bread and butter splunk
+- we'll cover this quite a bit
+- you can do this on your own
+
+---
+
+# Dashboards
+- building them for your app
+- you can build these on your own
+- lotta different charts/metrics you can show
+- Show BOWS dashboard
+- ^ insert secret link
+- not gonna cover this
+
+---
+
+# Alerts
+- oh shit
+- you need to engage splunk team to create these
+- you need this or something like this if you're running a service at our scale
+
+---
+
+# What we're also not gonna cover
+- splunk infrastructure
+-- heads, forwarders, indexers, etc
+-- I don't know how those work anyway
+
+---
+
+# Basics
+
+---
+
+# source
+ * generally a specific logfile
+ * syslog, access.log, gc.log, etc
+
+---
+
+# sourcetype
+* usually your app
+
+---
+
+# tags
+* we tag with prod or staging, but tags can be other things
+
+---
+
+#  times
+ * earliest=-4h
+ * earliest=-7d
+ * earliest=04/13/2016:01:50:00 latest=04/13/2016:07:50:00
+
+---
+
+# mode
+* I generally run in "Smart" mode even tho it's slow
+ * auto-discovers fields even if I didn't specify in search
+* if things are especially slow, I switch to "Fast"
+ * only fields specified are shown, can be annoying
+
+---
+
+* cid or id or transaction-id or ...
+ * teams don't use the same transaction-id across services at $WORK :(
+ * would be nice
+ * Money is a logging systems that folks are trying to standardize on
+
+---
+
+# Example search
+Search for logs for "handled_request" for the last ten minutes of our "PAL" service in prod
+
+`earliest=-10m sourcetype=pal tag=rialto-prod handled_request`
+
+* Let's run it
+
+---
+
+# Show fields, mode, export, stop in that search
+
+---
+
+# Expand a log line, show how to see context
+* "Show source" shows the log in context from that node
+ * What happened before this exception, slow request, whatever
+
+---
+
+# Pipes
+- Can pipe together splunk commands like unix pipes
+- You can keep chaining multiple pipes; extract a field and search on it for example
+
+---
+
+# Example:
+
+.
+.
+
+> `earliest=-10m sourcetype=pal tag=rialto-prod handled_request | rex field=_raw "idType=(?<idtype>.*?)( |&)" `
+
+
+---
+# Explanation
+
+> `earliest=-10m sourcetype=pal tag=rialto-prod handled_request | rex field=_raw "idType=(?<idtype>.*?)( |&)" `
+
+- rex is run a regular expression to extract a new field
+- field=_raw means run the regex against the whole log line (not just one field in it)
+- ?&lt; idtype &gt; is splunk format for extracting the field
+- does that mostly make sense? ^
+
+---
+
+# Charts
+- timechart
+-- my favorite splunk tool
+
+---
+
+# Stats
+- perc99
+- average/means are garbage; don't even bother
+-- no one cares that your mean request was 10ms when your 99th percentile was 3 seconds
+
+---
+
+# Designing your app for splunk
+* `some_key=some_value`
+* ^--- that's how splunk expects data to enter its system
+* Think about the events that might be useful to measure (you probably have already)
+
+---
+
+# Questions we answer with it
+1. Are our responses slower?
+-- earliest=-14d (splunk goes back ~30 days, don't count on more than about 15 days)
+1. Is our cache hit ratio off?
+1. Is problem X in one data center but not another?
+1. Are we excessively hitting some service (or is some service excessively hitting us)?
+
+Inspecting source code is the map, not the terrain; splunk is reality (at least in the past)
+
+---
+
+# Scenarios we've been in
+
+## "Our 99th is fine", "You literally time out every other call"
+* REMEMBER splunk only shows what was logged
+* networks drop packets, netsplits happen
+ * if your 99th is fine, but your clients say you're awful, then call networking team
+ * splunk can't help you here
+
+---
+
+# Scenarios we've been in
+##  We're getting crushed, what's going on?
+* aggregate calls, find outliers
+ * less than 1000 devices making millions of requests
+ * "average" device was making a completely reasonable # of requests
+
+---
+
+# Scenarios we've been in
+## These events are completely out of order
+* Session deleted before session was even requested?!
+* millisecond precision vs (*sigh*) second precision
+* session was requested, created, deleted within a single second
+
+---
+
+# Splunk can be a painful tool to use, but is essential to know what is going on here
+* I never thought I'd be someone doing a splunk presentation here. I hated it when I started
+* It's not the future tho, explicitly publishing rather than default logging is
+
+---
+
+The end
+
+---
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
