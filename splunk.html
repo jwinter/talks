@@ -21,11 +21,20 @@
 
 class: center, middle
 
+# Splunk
+
+---
+class: center, middle
+
+## or what is actually happening in production
+
+---
+
 # What's splunk
 * Storing / Searching "event stream"
-** What is it really?
-*** Log collection, aggregation, and search
-*** every backend service at $WORK logs to splunk (pretty much)
+ * What is it really?
+  * Log collection, aggregation, and search
+* EVERY backend service at $WORK logs to splunk (pretty much)
 * short presentation, but splunk is slow :)
 
 ---
@@ -35,56 +44,71 @@ class: center, middle
 ---
 
 # Why splunk
-- correlate events across services/teams at $WORK
-- every backend service is in splunk
-- ohnoohnoohnoohnowhathavewedone OR look these guys are idiots
-- real evidence to prove/disprove theories about what's actually going on in prod
+* Correlate events across multiple services/teams at $WORK
+* Every backend service is in splunk
+ * "ohnoohnoohnoohnowhathavewedone"
+ * OR
+ * "look these guys are idiots"
+* Real evidence to prove/disprove theories about what's actually going on in prod
+
+---
+class: center, middle
+
+# Splunk consists of
+## Search
+## Dashboards
+## Alerts
 
 ---
 
 # Search
-- bread and butter splunk
-- we'll cover this quite a bit
-- you can do this on your own
+* Bread and butter splunk
+* We'll cover this quite a bit
+* You can do this on your own
 
 ---
 
 # Dashboards
-- building them for your app
-- you can build these on your own
-- lotta different charts/metrics you can show
-- Show BOWS dashboard
-- ^ insert secret link
-- not gonna cover this
+* Build them for your app
+* You can build these on your own
+* Lotta different charts/metrics you can show
+*  Show BOWS dashboard
+ * ^ insert secret link
+* not gonna cover this
 
 ---
 
 # Alerts
-- oh shit
-- you need to engage splunk team to create these
-- you need this or something like this if you're running a service at our scale
+* oh noes
+* You need to engage splunk team to create these
+* You need this or something like this if you're running a service at our scale
 
 ---
 
 # What we're also not gonna cover
-- splunk infrastructure
--- heads, forwarders, indexers, etc
--- I don't know how those work anyway
+* splunk infrastructure
+ * heads, forwarders, indexers, etc
+ * I don't know how those work anyway
 
 ---
+class: center, middle
 
 # Basics
 
 ---
 
 # source
- * generally a specific logfile
- * syslog, access.log, gc.log, etc
+* generally a specific logfile
+ * `source=/var/log/syslog`
+ * `source=/opt/ds/tomcat-partnerItgLayer/logs/partnerItgLayer_0.log`
+ * `source=/opt/ds/tomcat-partnerItgLayer/logs/partnerItgLayer_access.log`
 
 ---
 
 # sourcetype
 * usually your app
+ * sourcetype=pal
+ * sourcetype=XreGuide 
 
 ---
 
