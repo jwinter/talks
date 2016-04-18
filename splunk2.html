@@ -42,10 +42,7 @@ class: center, middle
 # Why splunk
 * Correlate events across multiple services/teams at $WORK
 * Every backend service is in splunk
- * "ohnoohnoohnoohnowhathavewedone"
- * OR
- * "look these guys are idiots"
-* Real evidence to prove/disprove theories about what's actually going on in prod
+ * Real evidence to prove/disprove theories about what's actually going on in prod
 
 ---
 class: center, middle
@@ -128,7 +125,7 @@ class: center, middle
 
 ---
 
-* cid or id or transaction-id or ...
+# cid or id or transaction-id or ...
  * teams don't use the same transaction-id across services at $WORK :(
  * would be nice
  * Money is a logging systems that folks are trying to standardize on
@@ -213,7 +210,7 @@ Inspecting source code is the map, not the terrain; splunk is reality (at least 
 
 # Scenarios we've been in
 
-## "Our 99th is fine", "You literally time out every other call"
+## "Our 99th is fine" vs "You literally time out every other call"
 * REMEMBER splunk only shows what was logged
 * networks drop packets, netsplits happen
  * if your 99th is fine, but your clients say you're awful, then call networking team
@@ -239,7 +236,6 @@ Inspecting source code is the map, not the terrain; splunk is reality (at least 
 
 # Splunk can be a painful tool to use, but is essential to know what is going on here
 * I never thought I'd be someone doing a splunk presentation here. I hated it when I started
-* It's not the future tho, explicitly publishing rather than default logging is
 
 ---
 
