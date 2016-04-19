@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Splunk
+
+---
+class: center, middle
+
+## or what is actually happening in production
+
+---
+class: center, middle
+
+# What's splunk
+
+---
+class: center, middle
+
+# Why splunk
+
+---
+class: center, middle
+
+# Splunk consists of
+## Search
+## Dashboards
+## Alerts
+---
+
+# What we're also not gonna cover
+## Splunk Infrastructure
+
+---
+class: center, middle
+
+# Basics of a Splunk Search
+
+---
+
+class: center, middle
+
+# Switch to splunk.com here
+
+---
+
+# Example search
+Search for logs for "handled_request" for the last ten minutes of our "PAL" service in prod
+
+`earliest=-10m sourcetype=pal tag=rialto-prod handled_request`
+
+* Let's run it
+
+---
+
+# source
+* generally a specific logfile
+ * `source=/var/log/syslog`
+ * `source=/opt/ds/tomcat-partnerItgLayer/logs/partnerItgLayer_0.log`
+ * `source=/opt/ds/tomcat-partnerItgLayer/logs/partnerItgLayer_access.log`
+
+---
+
+# sourcetype
+* usually your app
+ * sourcetype=pal
+ * sourcetype=XreGuide 
+
+---
+
+# tags
+* we tag with prod or staging, but tags can be other things
+
+---
+
+#  times
+ * earliest=-4h # relative
+ * earliest=-7d
+ * earliest=04/13/2016:01:50:00 latest=04/13/2016:07:50:00
+
+---
+
+# mode
+* Fast / Smart
+
+---
+
+# cid or id or transaction-id or ...
+ * teams don't use the same transaction-id across services at $WORK :(
+ * Money
+
+---
+
+# Pipes
+* Can pipe together splunk commands like unix pipes
+* Can chain multiple pipes
+
+---
+
+# Example:
+
+.
+.
+
+> `earliest=-10m sourcetype=pal tag=rialto-prod handled_request | rex field=_raw "idType=(?<idtype>.*?)( |&)" `
+
+
+---
+# Explanation
+
+> `earliest=-10m sourcetype=pal tag=rialto-prod handled_request | rex field=_raw "idType=(?<idtype>.*?)( |&)" `
+
+- rex is run a regular expression to extract a new field
+- field=_raw means run the regex against the whole log line (not just one field in it)
+- ?&lt; idtype &gt; is splunk format for extracting the field
+- does that mostly make sense? ^
+
+---
+
+# Charts
+* timechart
+ * my favorite splunk tool
+
+> `sourcetype=pal tag=rialto-prod handled_request elapsedMs > 1000 | timechart span=5m count by stack`
+
+---
+
+# Stats
+* perc99 (or perc90, perc10, etc)
+
+> sourcetype=pal tag=rialto-prod handled_request  | timechart span=2m perc99(elapsedMs) by stack
+
+---
+
+# Designing your app for splunk
+* `some_key=some_value`
+
+---
+
+# Questions we answer with it
+1. Are our responses slower?
+1. Is our cache hit ratio off?
+1. Is problem X in one data center but not another?
+1. Are we excessively hitting some service (or is some service excessively hitting us)?
+
+---
+
+# Scenarios we've been in
+
+## "Our 99th is fine" vs "You literally time out every other call"
+* REMEMBER splunk only shows what was logged
+
+---
+
+# Scenarios we've been in
+##  We're getting crushed by load, what's going on?
+* Aggregate calls, find outliers
+
+---
+
+# Scenarios we've been in
+## "Seeing 1 million slow responses in client log" vs "Seeing 100k slow responses in server log"
+* Duplicate events
+
+---
+
+# Scenarios we've been in
+## These events are completely out of order
+
+---
+
+# Conclusion
+
+---
+
+The end
+
+---
+
+          
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
